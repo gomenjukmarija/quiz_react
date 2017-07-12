@@ -1,0 +1,32 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import {Router, Route, IndexRoute, browserHistory} from "react-router";
+import { Provider } from "react-redux";
+import Layout from "./components/Layout";
+import Home from "./components/Home";
+import Question from "./components/Question";
+import Register from "./components/Register";
+import RegisterAdmin from "./components/RegisterAdmin";
+import Login from "./components/Login";
+import User from "./components/User";
+import Test from "./components/Test";
+import auth from "./components/auth";
+import store  from "./store/store";
+
+ReactDOM.render(
+    <Provider store={store}>
+    <Router history={browserHistory}>
+        <Route path="/" component={Layout} >
+            <Route path = "register" component = { Register } ></Route>
+            <Route path = "login" component = { Login }></Route>
+            <Route path = "admin" component = { RegisterAdmin }></Route>
+            <Route path = "test" component = { Test }></Route>
+            <Route onEnter={auth}>
+                <IndexRoute component={Home} ></IndexRoute>
+                <Route path = "question" component = { Question } ></Route>                 
+                <Route path = "user" component = { User } ></Route>                         
+            </Route>
+        </Route>
+    </Router>
+  </Provider>,
+document.getElementById('app'));
