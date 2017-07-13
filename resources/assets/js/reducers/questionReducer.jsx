@@ -5,7 +5,8 @@ export default function question(state={
     answer: [],
     questionId: [],
     dataAnswer: [],
-    flag: false,  
+    flag: false,
+    loading: false,  
 
 }, action){
 
@@ -53,6 +54,14 @@ export default function question(state={
 				questionId: action.payload 
 			};
     }
+
+    case "PENDING_DATA": {  
+    // console.log('action.payload', action.payload);       	
+    return  { 				 
+    	...state,    	
+    	loading: true,  				
+    };
+  }
 
     case "GET_DATA": {  
     // console.log('action.payload', action.payload);       	

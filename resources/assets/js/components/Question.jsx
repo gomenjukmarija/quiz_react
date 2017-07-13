@@ -17,8 +17,7 @@ export default class Question extends React.Component {
      question: '',
      inputs: [{id: 0, answers: ''}],        
      answer: [],
-     showModal: false,
-     data : []        
+     showModal: false,    
      };
     this.handleChangeQuestion = this.handleChangeQuestion.bind(this);
     this.handleChangeAnswer = this.handleChangeAnswer.bind(this);
@@ -31,7 +30,6 @@ export default class Question extends React.Component {
   componentDidMount(){
     this.props.getQuestion();
   }
-
 
   handleChangeQuestion(event) {    
     this.setState({question: event.target.value}); 
@@ -88,25 +86,15 @@ export default class Question extends React.Component {
   }
 
   open(id) {
-    setTimeout(this.props.getData(id), 2000);    
 
-    this.setState({ showModal: true });
-    this.props.question.flag = false;
-
-    
-    // let arr = [];
-    // setTimeout(this.props.getData(), 1000);
-    // this.props.flag = false; 
-    // let data = this.props.question.dataAnswer;
-    // arr.push(data);
-    // this.setState({ data: arr, showModal: true });
+    this.props.getData(id);
+    this.setState({ showModal: true }); 
   }
 
   render() { 
     let question = this.props.question.question; 
-    
-    let flag = this.props.question.flag;
-    console.log(flag);
+    let flag = this.props.question.loading;
+    console.log('this.props.question.dataAnswer',this.props.question.dataAnswer);
 
     return (
       <div className="container"> 
@@ -153,6 +141,7 @@ export default class Question extends React.Component {
                 <ul>
                  {
                   question.map((question, index) => {
+                    
 
                     return (
                         <div>                                              
@@ -164,8 +153,7 @@ export default class Question extends React.Component {
                        
                         <Button
                         bsStyle="info"                               
-                        onClick= {
-                          // () => this.open()
+                        onClick= {                          
                           () => this.open(question.id)
                         }                           
                         >
@@ -175,14 +163,26 @@ export default class Question extends React.Component {
                         <Modal.Header closeButton>
                         <Modal.Title>Modal heading</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>
-
-                        { ( flag === true   )  ?                                
-                          <div>                        
-                             <h1>ghfhjhgj</h1>
-                          </div>  
-                          :  <div><img src='/uploads/loader.gif'/></div> } 
-
+                        <Modal.Body> 
+                        { ( flag === true   )   ?                
+                            <div>                                             
+                              <BarChart 
+                                width={600} 
+                                height={300} 
+                                data={this.props.question.dataAnswer}
+                                margin={{top: 20, right: 30, left: 20, bottom: 5}}
+                              >
+                                <XAxis dataKey="answer"/>
+                                <YAxis/>
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <Tooltip/>
+                                <Legend />
+                                  <Bar dataKey="female" stackId="a" fill="#8884d8" />
+                                  <Bar dataKey="male" stackId="a" fill="#82ca9d" />                               
+                                  <Bar dataKey="count_bd" fill="#ffc658"/>
+                              </BarChart>                              
+                            </div> 
+                            :  <div></div> }
                         </Modal.Body>
                         <Modal.Footer>
                         <Button onClick={this.close}>Close</Button>
@@ -193,8 +193,6 @@ export default class Question extends React.Component {
                    
                  }) 
                 }
-
-
                 </ul>          
           </div>
 
@@ -204,11 +202,6 @@ export default class Question extends React.Component {
     );
   }
 } 
-
-
-
-
-
 
 
 function mapStateToProps (state) {

@@ -5,10 +5,7 @@ import { connect } from 'react-redux';
 import { getQuestion, getAnswer, createResult  } from "../action/questionAction";
 import store  from "../store/store";
 import _  from "lodash";
-
-
-
-                           { ( flag === true   )  ?                                
+                           { ( flag === true   )   ?                                
                             <div>                        
                             <BarChart width={600} height={300} 
                             data={this.state.data}
@@ -24,9 +21,6 @@ import _  from "lodash";
                             </BarChart>
                             </div>  
                             :  <div><img src='/uploads/loader.gif'/></div> } 
-
-
-
 
 export default class Quiz extends React.Component{
 

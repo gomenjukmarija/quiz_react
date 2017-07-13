@@ -71,9 +71,6 @@ return(
 							<Link to="/user" >Пользователи</Link>
 						</li>	
 
-						<li>
-							<Link to="/test" >Тест</Link>
-						</li>	
 
 					{ 
 						authLinks.map((item, index) => {

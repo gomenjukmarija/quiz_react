@@ -59,6 +59,7 @@ export function createResult(result){
 
 export function getData(id){
   return function (dispatch) {
+    dispatch({type: "PENDING_DATA", payload: true})
     axios.get(`http://localhost:8000/result/data/${id}`)          
       .then((response) => {      
       dispatch({type: "GET_DATA", payload: response.data}); 

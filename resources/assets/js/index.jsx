@@ -9,7 +9,6 @@ import Register from "./components/Register";
 import RegisterAdmin from "./components/RegisterAdmin";
 import Login from "./components/Login";
 import User from "./components/User";
-import Test from "./components/Test";
 import auth from "./components/auth";
 import store  from "./store/store";
 
@@ -20,7 +19,6 @@ ReactDOM.render(
             <Route path = "register" component = { Register } ></Route>
             <Route path = "login" component = { Login }></Route>
             <Route path = "admin" component = { RegisterAdmin }></Route>
-            <Route path = "test" component = { Test }></Route>
             <Route onEnter={auth}>
                 <IndexRoute component={Home} ></IndexRoute>
                 <Route path = "question" component = { Question } ></Route>                 
