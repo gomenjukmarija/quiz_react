@@ -9,21 +9,17 @@ use App\User;
 use App\Answer;
 use App\Result;
 use Response;
-
 class ResultController extends Controller
 {
-
     public function data(Request $request)
     { 
         $id = $request->id;
-
-
+        
         $data =  Result::
             leftJoin('users', function($join) use($id) {
             $join
                 ->on('users.id', '=', 'results.user_id');
             })
-
             ->leftJoin('answers', function($join) use($id) {
                 $join
                     ->on('results.answer_id', '=', 'answers.id');
@@ -39,13 +35,12 @@ class ResultController extends Controller
             ->get()
             ->toArray();
 
-            $arr = array();
 
+            $arr = array();
             foreach ($data as $key => $value) { 
                 $arr[$key]['question_id'] = $value['question_id'];
                 $arr[$key]['answer_id'] = $value['answer_id'];              
                 $arr[$key]['answer'] = $value['answer'];                
-
                 $arr[$key]['count_bd'] = $value['count_bd'];
                 if ($value['sex'] == 'female') 
                 {
@@ -68,24 +63,19 @@ class ResultController extends Controller
                     unset($arr[$key]);                  
                 }
             }
-
             foreach($arr as $key => $value){                         
               if ($arr[$key]['answer'] == $arr2['answer']) {
                   $arr[$key]['male'] = $arr2['male'];                  
               }
             } 
-
             $arr = array_values($arr);
             return Response::json($arr);
     } 
-
-
         // $data = Result::leftJoin('users', function($join) use($id) {
         //     $join
         //         ->on('users.id', '=', 'results.user_id')
         //        ;
         //     })
-
         //     ->leftJoin('answers', function($join) use($id) {
         //     $join
         //         ->on('results.answer_id', '=', 'answers.id');
@@ -95,14 +85,11 @@ class ResultController extends Controller
         //     ->where('users.sex', 'female')
         //     ->get()
         //     ->toArray();
-
-
         // $answer = User::leftJoin('results', function($join) use($id) {
         //     $join
         //         ->on('results.user_id', '=', 'users.id')
         //         ->where('results.question_id', '=', $id);
         //     })
-
         //     ->leftJoin('answers', function($join) use($id) {
         //     $join
         //         ->on('results.answer_id', '=', 'answers.id');
@@ -112,9 +99,6 @@ class ResultController extends Controller
         //     // ->where('users.sex', 'female')
         //     ->get()
         //     ->toArray();
-
-
-
         // $male = User::with([
         //     'results' => function($q) use($id) {
         //         $q
@@ -126,7 +110,6 @@ class ResultController extends Controller
         //     ->where('sex', 'male')
         //     ->get()
         //     ->toArray();
-
         // $minor = User::with([
         //     'results' => function($q) use($id) {
         //         $q
@@ -138,10 +121,7 @@ class ResultController extends Controller
         //     ->where('date_of_birth', '<=',  '1999-01-01')
         //     ->get()
         //     ->toArray();
-
         // $array = array_merge($answers, $female);
-
        // return Response::json($array);
-
          
 }

@@ -10,6 +10,7 @@ import RegisterAdmin from "./components/RegisterAdmin";
 import Login from "./components/Login";
 import User from "./components/User";
 import auth from "./components/auth";
+import admin from "./components/admin";
 import store  from "./store/store";
 
 ReactDOM.render(
@@ -21,8 +22,10 @@ ReactDOM.render(
             <Route path = "admin" component = { RegisterAdmin }></Route>
             <Route onEnter={auth}>
                 <IndexRoute component={Home} ></IndexRoute>
-                <Route path = "question" component = { Question } ></Route>                 
-                <Route path = "user" component = { User } ></Route>                         
+                <Route onEnter={admin}>
+                    <Route path = "question" component = { Question } ></Route>                 
+                    <Route path = "user" component = { User } ></Route>
+                </Route>                         
             </Route>
         </Route>
     </Router>

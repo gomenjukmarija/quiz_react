@@ -34,8 +34,7 @@ export function registerAdmin (user){
 export function login (user){
   return function (dispatch) {   	
     axios.post("http://localhost:8000/auth/login", user)             
-      .then((response) => {  
-       console.log(response);      
+      .then((response) => {        
        dispatch({type: "LOGIN_USER", payload: JSON.parse(response.config.data) });
        if (response.data) { 
           let data = JSON.parse(response.config.data);         
@@ -52,9 +51,10 @@ export function login (user){
 
 export function role (){
   return function (dispatch) {    
-    axios.get("http://localhost:8000/role/index")             
+    axios.get("http://localhost:8000/role/index") 
       .then((response) => {
-       dispatch({type: "USER_ROLE", payload: response.data });
+       console.log('response',response);       
+       dispatch({type: "USER_ROLE", payload: response.data });     
        }) 
   }
 } 

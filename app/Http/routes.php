@@ -38,4 +38,3 @@ Route::get('/result/index', 'QuestionController@result');
 Route::get('user/index', 'UserController@users');
 
 Route::get('result/data/{id}', 'ResultController@data');
-Route::get('result/data/minor/{id}', 'ResultController@minor');

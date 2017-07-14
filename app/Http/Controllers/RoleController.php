@@ -13,7 +13,13 @@ class RoleController extends Controller
 {
    public function role()
    {
-       $role = Role::all();
-       return Response::json($role);
+
+   	 $role  = User::whereHas(
+   		'roles', function($q){
+   			$q->where('name', 'admin');
+   		}
+   		)->get();
+
+     return Response::json($role);
    }
 }

@@ -1,9 +1,9 @@
 
 export default function admin(nextState, replace) {
-
-  if (localStorage.getItem('myUser') === 'guest') {
+	console.log('сессия',localStorage.getItem('role'));
+  if (localStorage.getItem('role') === 'client') {
     replace({
-      pathname: '/login'
+      pathname: '/'
     })
   }
-}
+} 

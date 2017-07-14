@@ -45,7 +45,7 @@ export default class Quiz extends React.Component{
         
        let user = this.props.user;
        let email = localStorage.getItem('email');
-       let userInArray = _.find(user, {email}); 
+       let userInArray = _.find(user, {email});
        let userId = _.findIndex(result, {'user_id': userInArray.id}); 
 
        if (idInArray !== -1 &&  userId !== -1  ) {

@@ -12,15 +12,14 @@ export default class Login extends React.Component{
 constructor(props) {
     super(props);
     this.state = { 
-      email: '', password: '', role: ''
+      email: '', password: '', 
     }
     this.handleChangeUser = this.handleChangeUser.bind(this)   
     this.handleSubmit = this.handleSubmit.bind(this)   
 }
 
  componentDidMount(){
-    this.props.getUser();
-    this.props.role();
+    this.props.role();   
   }
 
 
@@ -34,26 +33,33 @@ handleSubmit(event) {
     event.preventDefault(); 
     
     
-    // let user = this.props.user;
-    // console.log('user', user);
+    let roles = this.props.user.role;
+    console.log('role', this.props.user.role);
     
-    // let email = this.state.email; 
-    // console.log('userInArray', userInArray);
-    // let userInArray = _.find(user, {email});
-    
-    // console.log('role', this.props.user.role);
+    let email = this.state.email;
+    console.log('email', email);
 
+    let userInArray = _.find(roles, {email});
+    console.log('userInArray', userInArray);
 
-    this.props.login(this.state);
+    if (userInArray === undefined ) {
+      localStorage.setItem('role', 'client'); 
+    } else { 
+          localStorage.setItem('role', 'admin');           
+      } 
 
+   console.log('localStorage', localStorage.getItem('role'));
+
+   this.props.login(this.state);
 
     this.setState(
       { 
-        email: '', password: '', role: ''
+        email: '', password: '',
       })    
 }
 
-render(){
+render(){     
+      
 return(
             <div className="container">
                 <form className="form-horizontal"  method="POST" onSubmit={this.handleSubmit}>
@@ -93,7 +99,7 @@ return(
 
 function mapStateToProps (state) {
   return {   
-    user: state.userReducer, // 2) какой редюсер слушает наш экшен  
+    user: state.authenticateReducer, // 2) какой редюсер слушает наш экшен  
   }
 }
 
