@@ -23,7 +23,8 @@ handleClick() {
 
 render(){
 
-	let authLinks;	  
+	let authLinks;
+	let clientLinks;	  
 
 		if(this.props.user.user == 'guest')
 		{			  
@@ -52,24 +53,50 @@ render(){
 					},
 				]
 		}
-	
+
+		if(localStorage.getItem('role') === 'client')
+		{			  
+				clientLinks = [
+					{
+						url: '/',
+						label: 'Главная страница'
+					}
+				]
+		}
+		else
+		{			
+			clientLinks = [
+					{
+						url: '/',
+						label: 'Главная страница'
+					},
+					{
+						url: '/question',
+						label: 'Админ панель'
+					},
+					{
+						url: '/user',
+						label: 'Пользователи'
+					},
+				]
+		}
 
 return(
 
       <div>			
       <nav className="navbar navbar-default" >
 					<div className="collapse navbar-collapse" >
-					<ul className="nav navbar-nav">            
+					<ul className="nav navbar-nav"> 
 
-						<li>
-							<IndexLink to="/" >Главная страница</IndexLink>
-						</li>
-						<li>
-							<Link to="/question" >Админ панель</Link>
-						</li>
-						<li>
-							<Link to="/user" >Пользователи</Link>
-						</li>	
+					{ 
+						clientLinks.map((item, index) => {
+							return (
+								<li key={index}>
+								   <Link to={item.url} onClick={item.onсlick}>{item.label}</Link>
+								</li>
+							)
+						})
+					}
 
 
 					{ 
