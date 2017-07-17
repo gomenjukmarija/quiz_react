@@ -74,6 +74,7 @@ export default class Quiz extends React.Component{
     let question = this.props.question;
     let answer = this.props.answer; 
     let flag = this.props.flag;
+    console.log('flag',flag);
 
     return (
 

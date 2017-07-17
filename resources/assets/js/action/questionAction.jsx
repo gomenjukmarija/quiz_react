@@ -22,6 +22,7 @@ export function getQuestion(){
 
 export function getAnswer(){
   return function (dispatch) {
+    dispatch({type: "PENDING_ANSWER", payload: true})
     axios.get("http://localhost:8000/question/answers")          
       .then((response) => {
       dispatch({type: "GET_ANSWER", payload: response.data});         

@@ -15,13 +15,14 @@ export default class Question extends React.Component {
     super(props);
     this.state = {
      question: '',
-     inputs: [{id: 0, answers: ''}],        
+     inputs: [{id: 0}],        
      answer: [],
      showModal: false,    
      };
     this.handleChangeQuestion = this.handleChangeQuestion.bind(this);
     this.handleChangeAnswer = this.handleChangeAnswer.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.appendInput = this.appendInput.bind(this);
     this.handleBtnDelete = this.handleBtnDelete.bind(this); 
     this.close = this.close.bind(this); 
     this.open = this.open.bind(this);     
@@ -37,23 +38,39 @@ export default class Question extends React.Component {
 
   handleChangeAnswer(event, id) {   
     var arr = this.state.answer;
-    var newInput = {id: id, answers: event.target.value};
-    arr.push(newInput);
-    this.setState({answer: arr}); 
+    var newInput = {id: id, answers: event.target.value};      
+    if (newInput.answers !== '') {      
+      arr.push(newInput);      
+    }
+    var arrId = _.findIndex(arr, {'id': newInput.id});    
+
+    if (arrId !== -1 ) {
+      _.remove(arr, function(arr){
+          return arr.id == arrId
+      })
+      arr.push(newInput);
+    } 
+    
+    var answer  = _.uniq(arr);
+    console.log('answer', answer); 
+    this.setState({answer: answer});     
   }
 
   handleSubmit(event) {
-    event.preventDefault();    
+    event.preventDefault();      
     this.props.createQuestion(this.state.question, this.state.answer);
     this.props.getQuestion();
     this.setState({question: '', inputs: [], answer: [] })
   }
 
-  appendInput() { 
+  appendInput(event) { 
+      event.preventDefault();
+     // console.log('event',event); 
       let inputs = this.state.inputs
-      if(inputs.length < 9){
-        inputs.push({id: inputs.length, answer: ''})
-        this.setState({inputs: inputs})
+      if(inputs.length < 8){
+        inputs.push({id: inputs.length})
+        this.setState({inputs: inputs})        
+    //    console.log('inputs', this.state.inputs);
       } 
   }
 
@@ -70,7 +87,7 @@ export default class Question extends React.Component {
           return an.id == id
       })
 
-      this.setState({inputs: inputs, answer: answer})
+      this.setState({inputs: inputs, answer: answer})         
   }
 
   handleBtnDelete(id, event){
@@ -94,12 +111,12 @@ export default class Question extends React.Component {
   render() { 
     let question = this.props.question.question; 
     let flag = this.props.question.loading;
-    console.log('this.props.question.dataAnswer',this.props.question.dataAnswer);
+   // console.log('this.props.question.dataAnswer',this.props.question.dataAnswer);
 
     return (
       <div className="container"> 
 
-        <form method="post" onSubmit={this.handleSubmit} >
+        <form>
           
           <div className="form-group col-md-5 input_fields_wrap">
 
@@ -107,7 +124,7 @@ export default class Question extends React.Component {
             <input type="text" className="form-control" 
             value={this.state.question} onChange={this.handleChangeQuestion} required/><br/>           
 
-            <button className="btn btn-default" onClick={ () => this.appendInput() }>
+            <button className="btn btn-default" onClick={this.appendInput}>
                 Добавить вариант ответа
             </button><br/><br/>            
 
@@ -132,7 +149,9 @@ export default class Question extends React.Component {
                   )    
                 })}             
             </div>
-            <input type="submit" className="btn btn-success" value="Добавить опрос" /> 
+            <button className="btn btn-success" onClick={this.handleSubmit}> 
+                Добавить опрос
+            </button><br/><br/> 
           </div>  
 
           

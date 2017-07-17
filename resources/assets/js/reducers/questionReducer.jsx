@@ -26,11 +26,17 @@ export default function question(state={
 			};
     }
 
+    case "PENDING_ANSWER": {   
+    return  { 				 
+    	...state,    	
+    	flag: true,  				
+    };
+  }
+
     case "GET_ANSWER": {       	
 			return  { 
 				...state,
-					answer: action.payload,
-					flag: true, 
+					answer: action.payload, 
 			};
     }
 

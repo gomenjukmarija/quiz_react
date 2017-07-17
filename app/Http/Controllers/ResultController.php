@@ -35,7 +35,6 @@ class ResultController extends Controller
             ->get()
             ->toArray();
 
-
             $arr = array();
             foreach ($data as $key => $value) { 
                 $arr[$key]['question_id'] = $value['question_id'];
@@ -49,6 +48,8 @@ class ResultController extends Controller
                    $arr[$key]['male'] = $value['count_sex'];
                } 
             }
+
+            
          
             $tmp = array();
             $arr2 = array();
@@ -62,12 +63,19 @@ class ResultController extends Controller
                     $arr2 = $arr[$key];
                     unset($arr[$key]);                  
                 }
-            }
-            foreach($arr as $key => $value){                         
-              if ($arr[$key]['answer'] == $arr2['answer']) {
+            }          
+
+            
+
+            foreach($arr as $key => $value){ 
+
+              if (isset($arr2['answer']) && $arr[$key]['answer'] == $arr2['answer']) {
                   $arr[$key]['male'] = $arr2['male'];                  
               }
             } 
+
+
+
             $arr = array_values($arr);
             return Response::json($arr);
     } 
