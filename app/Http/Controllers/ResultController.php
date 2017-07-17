@@ -74,8 +74,6 @@ class ResultController extends Controller
               }
             } 
 
-
-
             $arr = array_values($arr);
             return Response::json($arr);
     } 

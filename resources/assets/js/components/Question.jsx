@@ -51,16 +51,26 @@ export default class Question extends React.Component {
       arr.push(newInput);
     } 
     
-    var answer  = _.uniq(arr);
-    console.log('answer', answer); 
+    var answer  = _.uniq(arr);    
     this.setState({answer: answer});     
   }
 
   handleSubmit(event) {
-    event.preventDefault();      
-    this.props.createQuestion(this.state.question, this.state.answer);
+    event.preventDefault();
+
+    let answers = this.state.answer; 
+    let question = this.state.question;
+
+    if (typeof answers !== undefined && answers.length > 0) {
+        this.props.createQuestion(question, answers);
+    } else {
+       alertify.set('notifier','position', 'top-right');
+       alertify.warning('Вы не ввели варианты ответа!', 3); 
+    }    
+     
     this.props.getQuestion();
     this.setState({question: '', inputs: [], answer: [] })
+
   }
 
   appendInput(event) { 

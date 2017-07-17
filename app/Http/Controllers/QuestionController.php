@@ -20,8 +20,6 @@ class QuestionController extends Controller
 
         $result = $request->all('answer'); 
 
-        if (!empty($result['answer'])) {
-
         $question->save();              
         
         $maxkey = max(array_keys($result['answer']));
@@ -31,8 +29,6 @@ class QuestionController extends Controller
                 $answers->answer = $result['answer'][$x]['answers'];
                 $answers->save();
             }
-        }
-
     }
 
    public function questions()
