@@ -18,7 +18,8 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {  	  	
-    this.props.getQuestion(); 
+    this.props.getQuestion();
+    this.props.getResult(); 
   }
 
 
@@ -28,7 +29,6 @@ render(){
 	let answers = this.props.question.answer;
 	let flag = this.props.question.flag;
   let result = this.props.question.result;
-  let user = this.props.user.user; 
 
   return(
             <div className="container">
@@ -38,9 +38,9 @@ render(){
             		questions.map((q, index) => {
             			return ( <Quiz 
             				       question={q} key={index} createResult={this.props.createResult}
-            				       getAnswer={this.props.getAnswer} answer={answers} flag={flag}   
+            				       getAnswer={this.props.getAnswer} answer={answers} flag={flag} 
                            getResult={this.props.getResult} result={result}
-                           getUser={this.props.getUser} user={user}/> )
+                           /> )
             		})               
             	} 
             	</div>

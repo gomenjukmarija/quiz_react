@@ -32,6 +32,7 @@ export function getAnswer(){
 
 export function getResult(){
   return function (dispatch) {
+    dispatch({type: "PENDING_RESULT", payload: true})
     axios.get("http://localhost:8000/result/index")          
       .then((response) => {
       dispatch({type: "GET_RESULT", payload: response.data});         

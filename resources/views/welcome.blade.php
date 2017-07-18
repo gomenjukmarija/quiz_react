@@ -31,7 +31,7 @@
     </head>
     <body>
             <div class="content" id="app">
-               <script src="{{url('')}}/build/bundle.js"></script>
+               <script src="http://localhost:5995/_assets/bundle.js"></script>
             </div> 
     </body>
 </html>

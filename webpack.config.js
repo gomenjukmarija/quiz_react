@@ -1,11 +1,15 @@
-  var webpack = require('webpack');
+var webpack = require('webpack');
 var path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: "./resources/assets/js/index.jsx",
+  devtool: 'inline-source-map',
+  entry: [
+    './resources/assets/js/index.jsx'
+  ],
   output: {
     path: "./public/build",
+    publicPath: "http://localhost:5995/_assets/",
     filename: "bundle.js"
   },
   resolve: {
@@ -17,6 +21,11 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: "babel",
+      },
+      {
+        test: /\.js?$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel",
       },
@@ -38,7 +47,9 @@ module.exports = {
       compress:{
         warnings: false
       }
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
   ]
 };
 

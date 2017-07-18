@@ -34,16 +34,13 @@ export function registerAdmin (user){
 export function login (user){
   return function (dispatch) {   	
     axios.post("http://localhost:8000/auth/login", user)             
-      .then((response) => {        
-       dispatch({type: "LOGIN_USER", payload: JSON.parse(response.config.data) });
-       if (response.data) { 
-          let data = JSON.parse(response.config.data);         
-          localStorage.setItem('myUser', data);
-          localStorage.setItem('email', data.email);         
-          browserHistory.push('/')
-       }else {
-            alert('Ошибка!')
-          }
+      .then((response) => {
+      console.log('response',response);        
+       dispatch({type: "LOGIN_USER", payload: response.data });
+          let data = JSON.stringify(response.data.id);         
+          localStorage.setItem('myUser', data); 
+          console.log('data', data);               
+          browserHistory.push('/')      
        }) 
   }
 } 
@@ -52,8 +49,7 @@ export function login (user){
 export function role (){
   return function (dispatch) {    
     axios.get("http://localhost:8000/role/index") 
-      .then((response) => {
-       console.log('response',response);       
+      .then((response) => {       
        dispatch({type: "USER_ROLE", payload: response.data });     
        }) 
   }

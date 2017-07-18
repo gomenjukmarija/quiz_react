@@ -47,6 +47,14 @@ export default function question(state={
 			};
     }
 
+    case "PENDING_RESULT": {  
+    // console.log('action.payload', action.payload);           
+    return  {                
+        ...state,       
+        loading: true,                  
+    };
+  }
+
     case "CREATE_RESULT": {    	
 			return  { 
 				...state,

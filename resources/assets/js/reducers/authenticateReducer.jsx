@@ -44,7 +44,6 @@ export default function user(state={
     }
 
     case "USER_ROLE": {
-            console.log('action.payload',action.payload);
             return  { 
                 ...state,
                 role: action.payload 

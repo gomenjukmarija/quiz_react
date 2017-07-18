@@ -9,18 +9,31 @@ export default class Quiz extends React.Component{
     this.state = { 
     	open: false,
       answer: '',
-      question_id: '',  	
+      question_id: '',
+      disabled: false,              	
     };
     this.handleChangeResult = this.handleChangeResult.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this); 
   }
 
-  handleClick() {
+
+  handleClick(qId) {
     this.props.getResult();
-    this.props.getUser(); 
+
+    let result = this.props.result;
+    let userId = localStorage.getItem('myUser');
+    let questionIndex = _.findIndex(result, function(item){
+      return item.question_id == qId && item.user_id == userId
+    })
+    console.log(qId, userId, questionIndex, 'QQQQQQQQQQQQQQQQQQQQQQQq')
+
+    if (questionIndex !== -1 ) {
+        this.setState({ disabled: true});
+    }  
+
     setTimeout(this.props.getAnswer, 2000);
-    this.props.flag = false;
+    this.props.flag = false;        
     this.setState({ open: !this.state.open,  answer: ''});
   }
 
@@ -36,25 +49,14 @@ export default class Quiz extends React.Component{
   handleSubmit(event) {
     event.preventDefault();    
 
-    if (this.state.answer !== '') {
-       alertify.set('notifier','position', 'top-right');
+    if (this.state.answer !== '') { 
 
-       let result = this.props.result;
-       let question_id = this.state.question_id;
-       let idInArray = _.findIndex(result, {'question_id': question_id});
-        
-       let user = this.props.user;
-       let email = localStorage.getItem('email');
-       let userInArray = _.find(user, {email});
-       let userId = _.findIndex(result, {'user_id': userInArray.id}); 
+        alertify.set('notifier','position', 'top-right');
+        alertify.notify('Спасибо за ваш голос!', 'success', 3);
+        this.props.createResult(this.state);
+        this.setState({ disabled: true});
 
-       if (idInArray !== -1 &&  userId !== -1  ) {
-          alertify.set('notifier','position', 'top-right');
-          alertify.warning('Вы уже голосовали!', 3);
-       } else { 
-          alertify.notify('Спасибо за ваш голос!', 'success', 3);
-          this.props.createResult(this.state);
-         } 
+
        setTimeout(function() { this.setState({ open: !this.state.open, answer: '' }); 
        }.bind(this), 3000);
     } else {
@@ -69,22 +71,20 @@ export default class Quiz extends React.Component{
   }
 
   render() {
-
    
     let question = this.props.question;
     let answer = this.props.answer; 
-    let flag = this.props.flag;
-    console.log('flag',flag);
+    let flag = this.props.flag; 
 
     return (
 
     		<div>
-    		   <Button onClick={ ()=> this.handleClick()}>
+    		   <Button onClick={ ()=> this.handleClick(question.id)}>
                 {question.question}
            </Button>
     			<Panel collapsible expanded={this.state.open}>    			         
 						 	{  
-                ( flag === true   )  ? 
+                ( flag === true  )  ? 
 						 		answer.map((answer, index) => {
 						 			  	return (
 						 			  		( answer.question_id === question.id  ) ?
@@ -96,7 +96,7 @@ export default class Quiz extends React.Component{
 						 			  		: <span></span>
 						 			  		)						 			  	
 						 	}) :  <div><img src='/uploads/loader.gif'/></div> } 
-						   <Button bsStyle="success" onClick={(e) => this.handleSubmit(e)}>
+						   <Button disabled={this.state.disabled} bsStyle="success" onClick={(e) => this.handleSubmit(e)}>
                 Сохранить
               </Button>
     			</Panel>
